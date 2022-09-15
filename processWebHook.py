@@ -69,7 +69,7 @@ def mdrmcsv():
 
     print(count)
     print(mdrmDataDict[1])
-    return "MDRM success"    
+    return mdrmDataDict    
 
 if __name__ == "__main__":
     app.debug = True
