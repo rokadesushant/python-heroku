@@ -36,6 +36,10 @@ def mdrmcsv():
     data = pd.read_csv(csvdata,skiprows=1)
 
     data.drop('Unnamed: 10', inplace=True, axis=1)
+    
+    data.drop('Description', inplace=True, axis=1)
+
+    data.drop('SeriesGlossary', inplace=True, axis=1)
 
     #print(data)
 
@@ -44,13 +48,13 @@ def mdrmcsv():
     res = data.columns
     print(res)
 
-    data.columns.values[0] = "Mnemonic__c"
-    data.columns.values[1] = "Item_Code__c"
-    data.columns.values[2] = "Start_Date__c"
-    data.columns.values[3] = "End_Date__c"
-    data.columns.values[5] = "Confidentiality__c"
-    data.columns.values[6] = "Item_Type__c"
-    data.columns.values[7] = "Reporting_form__c"
+    data.columns.values[0] = "Mnemonic"
+    data.columns.values[1] = "Item_Code"
+    data.columns.values[2] = "Start_Date"
+    data.columns.values[3] = "End_Date"
+    data.columns.values[5] = "Confidentiality"
+    data.columns.values[6] = "Item_Type"
+    data.columns.values[7] = "Reporting_form"
 
 
 
@@ -68,11 +72,7 @@ def mdrmcsv():
             # print('Name',type(mdrm['Name']))
             mdrm['Name']= str(mdrm['Reporting_form__c'])+mdrm['Mnemonic__c']+str(mdrm['Item_Code__c'])
 
-        if mdrm['Description']:
-            mdrm['Description'] = re.sub('<[^<]+?>', '', str(mdrm['Description']))
-            mdrm['Description'] = mdrm['Description'].replace('&#x0D;','')
-            count += 1
-            #print(mdrm['Description'])
+        
 
         if mdrm['Start_Date__c']:
             mdrm['Start_Date__c'] = mdrm['Start_Date__c'].split(' ')[0]
