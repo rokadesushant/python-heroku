@@ -87,8 +87,8 @@ def mdrmcsv():
     print(count)
     #mdrmcsvData = json.dumps(mdrmDataDict, indent=2)
     #return "success"
-    #return jsonify(mdrmDataDict[int(startrange):int(endrange)])   
-    return jsonify(mdrmDataDict)
+    return jsonify(mdrmDataDict[int(startrange):int(endrange)])   
+    #return jsonify(mdrmDataDict)
 
 if __name__ == "__main__":
     app.debug = True
