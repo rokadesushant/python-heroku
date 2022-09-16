@@ -5,6 +5,8 @@ import pandas as pd
 from io import StringIO,BytesIO,TextIOWrapper
 from zipfile import ZipFile
 import re
+import json
+from flask import jsonify,request
 
 app = flask.Flask(__name__)
 
@@ -15,6 +17,12 @@ def home():
 
 @app.route('/mdrmcsv')
 def mdrmcsv():
+
+    startrange = request.args.get('startrange')
+    endrange = request.args.get('endrange')
+    print(request.args.get('startrange'))
+    print(request.args.get('endrange'))
+
     url = 'https://www.federalreserve.gov/apps/mdrm/pdf/MDRM.zip'
 
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -26,6 +34,8 @@ def mdrmcsv():
     csvdata = TextIOWrapper(zipfile.open('MDRM_CSV.csv'),encoding='utf-8')
 
     data = pd.read_csv(csvdata,skiprows=1)
+
+    data.drop('Unnamed: 10', inplace=True, axis=1)
 
     #print(data)
 
@@ -64,12 +74,19 @@ def mdrmcsv():
             count += 1
             #print(mdrm['Description'])
 
+        if mdrm['Start_Date__c']:
+            mdrm['Start_Date__c'] = mdrm['Start_Date__c'].split(' ')[0]
+
+        if mdrm['End_Date__c']:
+            mdrm['End_Date__c'] = mdrm['End_Date__c'].split(' ')[0]
 
     #print(type(d))
 
     print(count)
     print(mdrmDataDict[1])
-    return mdrmDataDict    
+    #mdrmcsvData = json.dumps(mdrmDataDict, indent=2)
+    #return "success"
+    return jsonify(mdrmDataDict[int(startrange):int(endrange)])   
 
 if __name__ == "__main__":
     app.debug = True
