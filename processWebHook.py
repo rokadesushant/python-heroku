@@ -73,11 +73,11 @@ def mdrmcsv():
             mdrm['Name']= str(mdrm['Reporting_form'])+mdrm['Mnemonic']+str(mdrm['Item_Code'])
 
         
-        if mdrm['Start_Date']:
-            mdrm['Start_Date'] = mdrm['Start_Date'].split(' ')[0]
+#         if mdrm['Start_Date']:
+#             mdrm['Start_Date'] = mdrm['Start_Date'].split(' ')[0]
 
-        if mdrm['End_Date']:
-            mdrm['End_Date'] = mdrm['End_Date'].split(' ')[0]
+#         if mdrm['End_Date']:
+#             mdrm['End_Date'] = mdrm['End_Date'].split(' ')[0]
 
     #print(type(d))
 
