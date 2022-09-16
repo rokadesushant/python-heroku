@@ -70,15 +70,14 @@ def mdrmcsv():
             # print('Mnomonic',type(mdrm['Mnemonic__c']))
             # print('Item code',type(mdrm['Item_Code__c']))
             # print('Name',type(mdrm['Name']))
-            mdrm['Name']= str(mdrm['Reporting_form__c'])+mdrm['Mnemonic__c']+str(mdrm['Item_Code__c'])
+            mdrm['Name']= str(mdrm['Reporting_form'])+mdrm['Mnemonic']+str(mdrm['Item_Code'])
 
         
+        if mdrm['Start_Date']:
+            mdrm['Start_Date'] = mdrm['Start_Date'].split(' ')[0]
 
-        if mdrm['Start_Date__c']:
-            mdrm['Start_Date__c'] = mdrm['Start_Date__c'].split(' ')[0]
-
-        if mdrm['End_Date__c']:
-            mdrm['End_Date__c'] = mdrm['End_Date__c'].split(' ')[0]
+        if mdrm['End_Date']:
+            mdrm['End_Date'] = mdrm['End_Date'].split(' ')[0]
 
     #print(type(d))
 
