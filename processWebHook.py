@@ -111,8 +111,8 @@ def mdrmcsv():
     print(count)
     #mdrmcsvData = json.dumps(mdrmDataDict, indent=2)
     #return "success"
-    #return json.dumps(mdrmDataDict[int(startrange):int(endrange)],indent=2)   
-    return jsonify(mdrmDataDict)
+    return json.dumps(mdrmDataDict[int(startrange):int(endrange)],indent=2)   
+    #return jsonify(mdrmDataDict)
 
 if __name__ == "__main__":
     app.debug = True
