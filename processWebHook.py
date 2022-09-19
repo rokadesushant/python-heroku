@@ -39,8 +39,8 @@ def countrec():
 @app.route('/mdrmcsv')
 def mdrmcsv():
 
-    startrange = request.args.get('startrange')
-    endrange = request.args.get('endrange')
+    startrange = request.args.get('startrange').split('.')[0]
+    endrange = request.args.get('endrange').split('.')[0]
     print(request.args.get('startrange'))
     print(request.args.get('endrange'))
 
