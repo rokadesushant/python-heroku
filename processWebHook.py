@@ -85,6 +85,9 @@ def mdrmcsv():
 
     # format the data
     for mdrm in mdrmDataDict:
+        
+        if type(mdrm['Reporting_form']) != str:
+            mdrm['Reporting_form'] = 'Unavailable'
 
         if mdrm['Name'] =='':
             # print('reporting form',type(mdrm['Reporting_form__c']))
