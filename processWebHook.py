@@ -15,6 +15,27 @@ app = flask.Flask(__name__)
 def home():
     return "hello World"
 
+@app.route('/countmdrm')
+def countrec():
+    url = 'https://www.federalreserve.gov/apps/mdrm/pdf/MDRM.zip'
+
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+    #resp = urllib.request.urlopen(url)
+
+    zipfile = ZipFile(BytesIO(urlopen(req).read()))
+
+    csvdata = TextIOWrapper(zipfile.open('MDRM_CSV.csv'),encoding='utf-8')
+
+    data = pd.read_csv(csvdata,skiprows=1)
+
+    count_row = data.shape[0]
+
+    print(count_row)
+
+    return jsonify(count_row)
+
+
 @app.route('/mdrmcsv')
 def mdrmcsv():
 
