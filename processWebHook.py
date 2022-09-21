@@ -111,6 +111,8 @@ def mdrmcsv():
         
         if type(mdrm['Reporting_form']) != str:
             mdrm['Reporting_form'] = 'Unavailable'
+        else:
+            mdrm['Reporting_form'] = mdrm['Reporting_form'].strip()
 
         if mdrm['Name'] =='':
             # print('reporting form',type(mdrm['Reporting_form__c']))
