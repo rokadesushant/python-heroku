@@ -32,9 +32,21 @@ def countrec():
     count_row = data.shape[0]
 
     print(count_row)
+    
+    mdrmDataDict = data.to_dict('records')
+    mdrmDataDictFilter = []
+    count = 0
+    for i in range(len(mdrmDataDict)):
+        # print("ith row ,",i,"end date ,",mdrmDataDict[i]['End_Date'].split(' ')[0].replace('/', '-').split('-')[2])
+        print('i ', i)
+        enddate = mdrmDataDict[i]['End Date']
+        # print(enddate)
+        if enddate.split(' ')[0].replace('/', '-').split('-')[2] == '9999':
+            # print('delete ',mdrmDataDict[i])
+            mdrmDataDictFilter.append(mdrmDataDict[i])
 
-    return jsonify(count_row)
-
+    return jsonify(len(mdrmDataDictFilter))
+    
 
 @app.route('/mdrmcsv')
 def mdrmcsv():
@@ -80,11 +92,22 @@ def mdrmcsv():
 
 
     mdrmDataDict = data.to_dict('records')
+    
+    mdrmDataDictFilter = []
+
+    for i in range(len(mdrmDataDict)):
+        #print("ith row ,",i,"end date ,",mdrmDataDict[i]['End_Date'].split(' ')[0].replace('/', '-').split('-')[2])
+        #print('i ',i)
+        enddate = mdrmDataDict[i]['End_Date']
+        #print(enddate)
+        if enddate.split(' ')[0].replace('/', '-').split('-')[2] == '9999':
+            #print('delete ',mdrmDataDict[i])
+            mdrmDataDictFilter.append(mdrmDataDict[i])
 
     count=0
 
     # format the data
-    for mdrm in mdrmDataDict:
+    for mdrm in mdrmDataDictFilter:
         
         if type(mdrm['Reporting_form']) != str:
             mdrm['Reporting_form'] = 'Unavailable'
@@ -114,7 +137,7 @@ def mdrmcsv():
     print(count)
     #mdrmcsvData = json.dumps(mdrmDataDict, indent=2)
     #return "success"
-    return json.dumps(mdrmDataDict[int(startrange):int(endrange)],indent=2)   
+    return json.dumps(mdrmDataDictFilter[int(startrange):int(endrange)],indent=2)   
     #return jsonify(mdrmDataDict)
 
 if __name__ == "__main__":
