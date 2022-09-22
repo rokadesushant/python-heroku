@@ -46,6 +46,94 @@ def countrec():
             mdrmDataDictFilter.append(mdrmDataDict[i])
 
     return jsonify(len(mdrmDataDictFilter))
+
+@app.route('/countitemcode')
+def countitemcode():
+    url = 'https://www.federalreserve.gov/apps/mdrm/pdf/MDRM.zip'
+
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+    # resp = urllib.request.urlopen(url)
+
+    zipfile = ZipFile(BytesIO(urlopen(req).read()))
+
+    csvdata = TextIOWrapper(zipfile.open('MDRM_CSV.csv'), encoding='utf-8')
+
+    data = pd.read_csv(csvdata, skiprows=1)
+
+    data.drop('Unnamed: 10', inplace=True, axis=1)
+    data.drop('Mnemonic', inplace=True, axis=1)
+    data.drop('Start Date', inplace=True, axis=1)
+    data.drop('End Date', inplace=True, axis=1)
+    data.drop('Confidentiality', inplace=True, axis=1)
+    data.drop('SeriesGlossary', inplace=True, axis=1)
+    data.drop('ItemType', inplace=True, axis=1)
+    data.drop('Reporting Form', inplace=True, axis=1)
+
+    # print(data)
+
+    res = data.columns
+    print(res)
+
+    # dropping ALL duplicate values
+    data.drop_duplicates(subset="Item Code",
+                         keep='first', inplace=True)
+
+    itemCodeDict = data.to_dict('records')
+    print(itemCodeDict[1])
+    print('len ', len(itemCodeDict))
+
+    return jsonify(len(itemCodeDict))
+
+@app.route('/itemcode')
+def itemcode():
+    startrange = request.args.get('startrange').split('.')[0]
+    endrange = request.args.get('endrange').split('.')[0]
+    print(startrange)
+    print(endrange)
+
+    url = 'https://www.federalreserve.gov/apps/mdrm/pdf/MDRM.zip'
+
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+    # resp = urllib.request.urlopen(url)
+
+    zipfile = ZipFile(BytesIO(urlopen(req).read()))
+
+    csvdata = TextIOWrapper(zipfile.open('MDRM_CSV.csv'), encoding='utf-8')
+
+    data = pd.read_csv(csvdata, skiprows=1)
+
+    data.drop('Unnamed: 10', inplace=True, axis=1)
+    data.drop('Mnemonic', inplace=True, axis=1)
+    data.drop('Start Date', inplace=True, axis=1)
+    data.drop('End Date', inplace=True, axis=1)
+    data.drop('Confidentiality', inplace=True, axis=1)
+    data.drop('SeriesGlossary', inplace=True, axis=1)
+    data.drop('ItemType', inplace=True, axis=1)
+    data.drop('Reporting Form', inplace=True, axis=1)
+
+    # print(data)
+
+    res = data.columns
+    print(res)
+
+    # dropping ALL duplicate values
+    data.drop_duplicates(subset="Item Code",
+                         keep='first', inplace=True)
+
+    itemCodeDict = data.to_dict('records')
+    print(itemCodeDict[1])
+    print('len ',len(itemCodeDict))
+
+    for itemcode in itemCodeDict:
+        if type(itemcode['Description']) != str:
+            itemcode['Description'] = 'Unavailable'
+        else:
+            itemcode['Description'] = itemcode['Description'].replace('<p style=\'white-space: pre-wrap;\'>','').replace('</p>','').replace('&#x0D;','').replace('&#x07;','')
+
+    return json.dumps(itemCodeDict[int(startrange):int(endrange)], indent=2)
+
     
 
 @app.route('/mdrmcsv')
@@ -144,6 +232,8 @@ def mdrmcsv():
     #return "success"
     return json.dumps(mdrmDataDictFilter[int(startrange):int(endrange)],indent=2)   
     #return jsonify(mdrmDataDict)
+    
+  
 
 if __name__ == "__main__":
     app.debug = True
