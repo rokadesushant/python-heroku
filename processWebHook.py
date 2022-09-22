@@ -109,7 +109,7 @@ def mdrmcsv():
 
     # format the data
     for mdrm in mdrmDataDictFilter:
-        
+        count+=1
         if type(mdrm['Reporting_form']) != str:
             mdrm['Reporting_form'] = 'Unavailable'
         else:
