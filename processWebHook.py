@@ -121,6 +121,10 @@ def itemcode():
     # dropping ALL duplicate values
     data.drop_duplicates(subset="Item Code",
                          keep='first', inplace=True)
+    
+    data.columns.values[0] = "Item_Code"
+    data.columns.values[1] = "Item_Name"
+    data.columns.values[2] = "Description"
 
     itemCodeDict = data.to_dict('records')
     print(itemCodeDict[1])
