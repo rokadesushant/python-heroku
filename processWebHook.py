@@ -77,6 +77,7 @@ def mdrmcsv():
     #print(data)
 
     data["Name"] = ""
+    data["External_Id"] = ""
 
     res = data.columns
     print(res)
@@ -120,7 +121,9 @@ def mdrmcsv():
             # print('Item code',type(mdrm['Item_Code__c']))
             # print('Name',type(mdrm['Name']))
             mdrm['Name']= str(mdrm['Reporting_form'])+mdrm['Mnemonic']+str(mdrm['Item_Code'])
-
+        
+        if mdrm['External_Id'] == '':
+            mdrm['External_Id'] = str(mdrm['Reporting_form']) + mdrm['Mnemonic'] + str(mdrm['Item_Code']) + str(count)
         
         if mdrm['Start_Date']:
             startdatesplit = mdrm['Start_Date'].split(' ')[0].replace('/','-').split('-')
