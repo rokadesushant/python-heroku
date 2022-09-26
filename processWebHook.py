@@ -212,7 +212,7 @@ def mdrmcsv():
             # print('Mnomonic',type(mdrm['Mnemonic__c']))
             # print('Item code',type(mdrm['Item_Code__c']))
             # print('Name',type(mdrm['Name']))
-            mdrm['Name']= str(mdrm['Reporting_form'])+mdrm['Mnemonic']+str(mdrm['Item_Code'])
+            mdrm['Name']= str(mdrm['Reporting_form'])+':'+mdrm['Mnemonic']+str(mdrm['Item_Code'])+':'+str(mdrm['Item_Type'])
         
         if mdrm['External_Id'] == '':
             mdrm['External_Id'] = str(mdrm['Reporting_form']) + mdrm['Mnemonic'] + str(mdrm['Item_Code']) + str(count)
